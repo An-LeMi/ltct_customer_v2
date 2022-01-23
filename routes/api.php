@@ -22,5 +22,12 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 Route::post('logout', [AuthController::class, 'logout']);
 
+// get all active users
+Route::get('users/active', [UserController::class, 'active']);
+// get all inactive users
+Route::get('users/inactive', [UserController::class, 'inactive']);
+// get all blocked users
+Route::get('users/blocked', [UserController::class, 'blocked']);
+
 Route::resource('user', UserController::class)->except(['create', 'edit', 'store']);
 Route::resource('admin', AdminController::class)->except(['create', 'edit']);
