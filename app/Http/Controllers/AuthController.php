@@ -19,6 +19,7 @@ class AuthController extends Controller
         if (strlen($phone) != 10) {
             return response()->json([
                 'message' => 'Invalid phone number.',
+                'status' => 400
             ], Response::HTTP_BAD_REQUEST);
         }
 
@@ -32,6 +33,7 @@ class AuthController extends Controller
 
         return response()->json([
             'id' => $user->id,
+            'status' => 200
         ], Response::HTTP_OK);
     }
 
@@ -57,6 +59,7 @@ class AuthController extends Controller
         } else if ($user && $user->status == 'active') {
             return response()->json([
                 'message' => 'User already exist',
+                'status' => 400
             ], Response::HTTP_BAD_REQUEST);
         } else {
             $user = User::create([
@@ -88,7 +91,8 @@ class AuthController extends Controller
         });
 
         return response([
-            'message' => 'Logged out successfully'
+            'message' => 'Logged out successfully',
+            'status' => 200
         ], Response::HTTP_OK);
     }
 
@@ -126,7 +130,8 @@ class AuthController extends Controller
         return response([
             'token' => $token,
             'data' => $user,
-            'message' => 'Successfully logged in'
+            'message' => 'Successfully logged in',
+            'status' => 200
         ], Response::HTTP_OK);
     }
 
@@ -137,7 +142,8 @@ class AuthController extends Controller
 
         return response([
             'user' => $user,
-            'message' => 'Successfully logged in'
+            'message' => 'Successfully logged in',
+            'status' => 200
         ], Response::HTTP_OK);
     }
 }

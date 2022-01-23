@@ -55,6 +55,7 @@ class AdminController extends Controller
         if ($user) {
             return response()->json([
                 'message' => 'Admin already exist',
+                'status' => 400
             ], Response::HTTP_BAD_REQUEST);
         }
 
