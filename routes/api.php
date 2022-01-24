@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\StateController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,11 +24,16 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('logout', [AuthController::class, 'logout']);
 
 // get all active users
-Route::get('users/active', [UserController::class, 'active']);
+Route::get('users/active', [StateController::class, 'active']);
 // get all inactive users
-Route::get('users/inactive', [UserController::class, 'inactive']);
+Route::get('users/inactive', [StateController::class, 'inactive']);
 // get all blocked users
-Route::get('users/blocked', [UserController::class, 'blocked']);
+Route::get('users/blocked', [StateController::class, 'blocked']);
+// active user
+Route::get('user/{user}/active', [StateController::class, 'activeUser']);
+// block user
+Route::get('user/{user}/block', [StateController::class, 'blockUser']);
+
 
 Route::resource('user', UserController::class)->except(['create', 'edit', 'store']);
 Route::resource('admin', AdminController::class)->except(['create', 'edit']);
