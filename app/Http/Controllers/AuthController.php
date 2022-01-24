@@ -44,6 +44,7 @@ class AuthController extends Controller
             'password' => 'required|confirmed',
             'email' => 'required|email|unique:users',
             'phone' => 'required|unique:users|digits:10',
+            'role' => 'required'
         ]);
 
         // check user exist with phone
@@ -54,20 +55,21 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password),
                 'email' => $request->email,
                 'phone' => $request->phone,
+                'role' => $request->role,
                 'status' => 'active',
             ]);
         } else if ($user && $user->status == 'active') {
             return response()->json([
                 'message' => 'User already exist',
-                'status' => 400
-            ], Response::HTTP_BAD_REQUEST);
+                'status' => Response::HTTP_BAD_REQUEST
+            ], Response::HTTP_OK);
         } else {
             $user = User::create([
                 'username' => $request->username,
                 'password' => Hash::make($request->password),
                 'email' => $request->email,
                 'phone' => $request->phone,
-                'role' => 'user',
+                'role' => $request->role,
                 'status' => 'active',
             ]);
         }
@@ -109,19 +111,19 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'Username or password is incorrect',
                 'status' => 401,
-            ], Response::HTTP_UNAUTHORIZED);
+            ], Response::HTTP_OK);
         }
 
         if ($user->status == 'inactive') {
             return response()->json([
                 'message' => 'Unregistered users cannot login',
                 'status' => 401,
-            ], Response::HTTP_UNAUTHORIZED);
+            ], Response::HTTP_OK);
         } else if ($user->status == 'blocked') {
             return response()->json([
                 'message' => 'User is blocked',
                 'status' => 401,
-            ], Response::HTTP_UNAUTHORIZED);
+            ], Response::HTTP_OK);
         }
 
         // generate token

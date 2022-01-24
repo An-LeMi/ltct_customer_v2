@@ -15,8 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        // get all user not admin
-        $users = User::where('role', 'user')->get();
+        // get all user
+        $users = User::all();
         return response()->json([
             'data' => $users,
             'status' => 200,
@@ -54,7 +54,7 @@ class UserController extends Controller
     public function show($id)
     {
         // find user by id and user not admin
-        $user = User::where('id', $id)->where('role', 'user')->first();
+        $user = User::find($id);
         if (!$user || $user->status == 'inactive' || $user->status == 'blocked') {
             return response()->json([
                 'message' => 'User not found',
@@ -88,7 +88,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $user = User::where('id', $id)->where('role', 'user')->first();
+        $user = User::find($id);
 
         if (!$user || $user->status == 'inactive' || $user->status == 'blocked') {
             return response()->json([
@@ -115,7 +115,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
-        $user = User::where('id', $id)->where('role', 'user')->first();
+        $user = User::find($id);
 
         if (!$user || $user->status == 'inactive' || $user->status == 'blocked') {
             return response()->json([
@@ -134,43 +134,7 @@ class UserController extends Controller
             'status' => 200,
         ], Response::HTTP_OK);
     }
-
-    // get all active user
-    public function active()
-    {
-        $users = User::where('status', 'active')->where('role', 'user')->get();
-
-        return response([
-            'data' => $users,
-            'message' => 'Active user',
-            'status' => 200,
-        ], Response::HTTP_OK);
-    }
-
-    // get all inactive user
-    public function inactive()
-    {
-        $users = User::where('status', 'inactive')->where('role', 'user')->get();
-
-        return response([
-            'data' => $users,
-            'message' => 'Inactive user',
-            'status' => 200,
-        ], Response::HTTP_OK);
-    }
-
-    // get all blocked user
-    public function blocked()
-    {
-        $users = User::where('status', 'blocked')->where('role', 'user')->get();
-
-        return response([
-            'data' => $users,
-            'message' => 'Blocked user',
-            'status' => 200,
-        ], Response::HTTP_OK);
-    }
-
+    
     // search user by name or phone
     public function search(Request $request)
     {
