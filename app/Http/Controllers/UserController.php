@@ -134,7 +134,7 @@ class UserController extends Controller
             'status' => 200,
         ], Response::HTTP_OK);
     }
-    
+
     // search user by name or phone
     public function search(Request $request)
     {
