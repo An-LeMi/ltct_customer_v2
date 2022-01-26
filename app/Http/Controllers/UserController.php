@@ -55,7 +55,7 @@ class UserController extends Controller
     {
         // find user by id and user not admin
         $user = User::find($id);
-        if (!$user || $user->status == 'inactive' || $user->status == 'blocked') {
+        if (!$user || $user->status == 'inactive') {
             return response()->json([
                 'message' => 'User not found',
                 'status' => 404,
@@ -90,7 +90,7 @@ class UserController extends Controller
         //
         $user = User::find($id);
 
-        if (!$user || $user->status == 'inactive' || $user->status == 'blocked') {
+        if (!$user || $user->status == 'inactive') {
             return response()->json([
                 'message' => 'User not found',
                 'status' => 404,
@@ -134,7 +134,7 @@ class UserController extends Controller
             'status' => 200,
         ], Response::HTTP_OK);
     }
-    
+
     // search user by name or phone
     public function search(Request $request)
     {
