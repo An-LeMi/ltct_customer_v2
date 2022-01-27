@@ -125,11 +125,12 @@ class UserController extends Controller
         }
 
         // change current user status to blocked
-        $user->status = 'blocked';
-        $user->save();
+        // $user->status = 'blocked';
+        // $user->save();
+        $user->delete();
 
         return response()->json([
-            'message' => 'User blocked',
+            'message' => 'User deleted',
             'data' => $user,
             'status' => 200,
         ], Response::HTTP_OK);
