@@ -33,6 +33,8 @@ Route::get('users/blocked', [StateController::class, 'blocked']);
 Route::get('user/{user}/active', [StateController::class, 'activeUser']);
 // block user
 Route::get('user/{user}/block', [StateController::class, 'blockUser']);
+// Update password
+Route::post('user/{id}/update_password', [UserController::class, 'update_password']);
 
 
 Route::resource('user', UserController::class)->except(['create', 'edit', 'store']);

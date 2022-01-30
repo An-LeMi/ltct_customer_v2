@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -149,5 +150,30 @@ class UserController extends Controller
             'message' => 'Search user',
             'status' => 200,
         ], Response::HTTP_OK);
+    }
+
+    public function update_password(Request $request, $id)
+    {
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|confirmed',
+        ]);
+
+        $user = User::find($id);
+        if ((Hash::check($request->old_password, $user->password) && $user)) {
+            $user->update([
+                'password' => Hash::make($request->new_password)
+            ]);
+            return response()->json([
+                'user' => $user,
+                'message' => 'Update password success',
+                'status' => 200
+            ], Response::HTTP_OK);
+        } else {
+            return response()->json([
+                'message' => 'Password is incorrect',
+                'status' => 401
+            ], Response::HTTP_UNAUTHORIZED);
+        }
     }
 }
