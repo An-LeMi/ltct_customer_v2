@@ -137,20 +137,7 @@ class UserController extends Controller
         ], Response::HTTP_OK);
     }
 
-    // search user by name or phone
-    public function search(Request $request)
-    {
-        $users = User::where('name', 'like', '%' . $request->name . '%')
-            ->orWhere('phone', 'like', '%' . $request->phone . '%')
-            ->where('role', 'user')
-            ->get();
 
-        return response([
-            'data' => $users,
-            'message' => 'Search user',
-            'status' => 200,
-        ], Response::HTTP_OK);
-    }
 
     public function update_password(Request $request, $id)
     {
@@ -176,4 +163,43 @@ class UserController extends Controller
             ], Response::HTTP_UNAUTHORIZED);
         }
     }
+
+    // search user by name or phone
+    public function search(Request $request)
+    {
+        // $currentUser = auth()->user();
+        // if ($currentUser->role == 'admin') {
+        if ($request->name != NULL && $request->phone != NULL) {
+            $users = User::where('name', 'like', '%' . $request->name . '%')
+                ->where('phone', 'like', '%' . $request->phone . '%')
+                ->get();
+        } else if ($request->name == NULL) {
+            $users = User::where('phone', 'like', '%' . $request->phone . '%')->get();
+        } else if ($request->phone == NULL) {
+            $users = User::where('name', 'like', '%' . $request->name . '%')->get();
+        }
+        // $users = User::where('name', 'like', '%' . $request->name . '%')
+        //     ->where('phone', 'like', '%' . $request->phone . '%')
+        //     ->get();
+
+        return response([
+            'data' => $users,
+            'message' => 'Search user success',
+            'status' => 200
+        ], Response::HTTP_OK);
+    }
+        // // search user by name or phone
+    // public function search(Request $request)
+    // {
+    //     $users = User::where('name', 'like', '%' . $request->name . '%')
+    //         ->orWhere('phone', 'like', '%' . $request->phone . '%')
+    //         ->where('role', 'user')
+    //         ->get();
+
+    //     return response([
+    //         'data' => $users,
+    //         'message' => 'Search user',
+    //         'status' => 200,
+    //     ], Response::HTTP_OK);
+    // }
 }

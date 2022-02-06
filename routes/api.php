@@ -36,6 +36,8 @@ Route::get('user/{user}/block', [StateController::class, 'blockUser']);
 // Update password
 Route::post('user/{id}/update_password', [UserController::class, 'update_password']);
 
+// search user by name or phone
+Route::post('user/search', [UserController::class, 'search']);
 
 Route::resource('user', UserController::class)->except(['create', 'edit', 'store']);
 Route::resource('admin', AdminController::class)->except(['create', 'edit']);
