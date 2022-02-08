@@ -35,6 +35,8 @@ Route::get('user/{user}/active', [StateController::class, 'activeUser']);
 Route::get('user/{user}/block', [StateController::class, 'blockUser']);
 // Update password
 Route::post('user/{id}/update_password', [UserController::class, 'update_password']);
+// get customer id
+Route::get('customer-id/{phone}', [UserController::class, 'getCustomerID']);
 
 // search user by name or phone
 Route::post('user/search', [UserController::class, 'search']);

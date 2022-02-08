@@ -12,30 +12,30 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function getCustomerID($phone)
-    {
-        // validate phone number
-        $phone = preg_replace('/[^0-9]/', '', $phone);
-        if (strlen($phone) != 10) {
-            return response()->json([
-                'message' => 'Invalid phone number.',
-                'status' => 400
-            ], Response::HTTP_BAD_REQUEST);
-        }
+    // public function getCustomerID($phone)
+    // {
+    //     // validate phone number
+    //     $phone = preg_replace('/[^0-9]/', '', $phone);
+    //     if (strlen($phone) != 10) {
+    //         return response()->json([
+    //             'message' => 'Invalid phone number.',
+    //             'status' => 400
+    //         ], Response::HTTP_BAD_REQUEST);
+    //     }
 
-        $user = User::where('phone', $phone)->first();
+    //     $user = User::where('phone', $phone)->first();
 
-        if (!$user) {
-            $user = User::create([
-                'phone' => $phone,
-            ]);
-        }
+    //     if (!$user) {
+    //         $user = User::create([
+    //             'phone' => $phone,
+    //         ]);
+    //     }
 
-        return response()->json([
-            'id' => $user->id,
-            'status' => 200
-        ], Response::HTTP_OK);
-    }
+    //     return response()->json([
+    //         'id' => $user->id,
+    //         'status' => 200
+    //     ], Response::HTTP_OK);
+    // }
 
     public function register(Request $request)
     {

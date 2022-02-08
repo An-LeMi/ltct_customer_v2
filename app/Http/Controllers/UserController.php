@@ -188,18 +188,37 @@ class UserController extends Controller
             'status' => 200
         ], Response::HTTP_OK);
     }
-        // // search user by name or phone
-    // public function search(Request $request)
-    // {
-    //     $users = User::where('name', 'like', '%' . $request->name . '%')
-    //         ->orWhere('phone', 'like', '%' . $request->phone . '%')
-    //         ->where('role', 'user')
-    //         ->get();
 
-    //     return response([
-    //         'data' => $users,
-    //         'message' => 'Search user',
-    //         'status' => 200,
-    //     ], Response::HTTP_OK);
-    // }
+    public function getCustomerID($phone)
+    {
+        // validate phone number
+        $phone = preg_replace('/[^0-9]/', '', $phone);
+        if (strlen($phone) != 10) {
+            return response()->json([
+                'message' => 'Invalid phone number.',
+                'status' => 400
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $user = User::where('phone', $phone)->first();
+
+        if (!$user) {
+            $user = User::create([
+                'phone' => $phone,
+                'role' => 'customer',
+                'status' => 'active'
+            ]);
+            return response()->json([
+                'data' => $user->id,
+                'status' => 200
+            ], Response::HTTP_OK);
+        }
+        else {
+            return response()->json([
+                'data' => $user->id,
+                'status' => 200
+            ], Response::HTTP_OK);
+        }
+
+    }
 }
